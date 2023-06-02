@@ -29,9 +29,39 @@ string filePath = "";
 
 /*  List of Blobs */
 
-BlobContainerClient blobContainerClient = new BlobContainerClient(connectionString, containerName);
-await foreach (BlobItem blobItem in blobContainerClient.GetBlobsAsync())
+// BlobContainerClient blobContainerClient = new BlobContainerClient(connectionString, containerName);
+// await foreach (BlobItem blobItem in blobContainerClient.GetBlobsAsync())
+// {
+//     System.Console.WriteLine("The Blob Name is {0}", blobItem.Name);
+//     System.Console.WriteLine("The Blob Size is {0}", blobItem.Properties.ContentLength);
+// }
+
+/*  Set Blob MetaData */
+
+// await SetBlobMetaData();
+
+// async Task SetBlobMetaData()
+// {
+//     BlobClient blobClient = new BlobClient(connectionString, containerName, blobName);
+//     IDictionary<string, string> metaData = new Dictionary<string, string>();
+//     metaData.Add("Department", "Logistics");
+//     metaData.Add("Application", "AppA");
+
+//     System.Console.WriteLine("Metadata added. ");
+// }
+
+/*  Get Blob MetaData */
+
+await GetBlobMetadata();
+
+async Task GetBlobMetadata()
 {
-    System.Console.WriteLine("The Blob Name is {0}", blobItem.Name);
-    System.Console.WriteLine("The Blob Size is {0}", blobItem.Properties.ContentLength);
+    BlobClient blobClient = new BlobClient(connectionString, containerName, blobName);
+    BlobProperties blobProperties = await blobClient.GetPropertiesAsync();
+
+    foreach (var metaData in blobProperties.Metadata)
+    {
+        System.Console.WriteLine("The Key is {0} ", metaData.Key);
+        System.Console.WriteLine("The Value is {0} ", metaData.Value);
+    }
 }
