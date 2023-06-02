@@ -1,0 +1,8 @@
+Azure Blob Storage Hands on.
+
+    - Creating a Container
+    - Uploading a Blob
+    - List all Blobs
+    - Download a Blob
+    - Blob Metadata
+    - Blob Lease
