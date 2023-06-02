@@ -70,18 +70,18 @@ string filePath = "";
 
 /* Blob Lease */
 
-await AcquireLease();
+// await AcquireLease();
 
-async Task AcquireLease()
-{
-    BlobClient blobClient = new BlobClient(connectionString, containerName, blobName);
-    BlobLeaseClient blobLeaseClient = blobClient.GetBlobLeaseClient();
-    TimeSpan leaseTime = new TimeSpan(0, 0, 1, 00);
+// async Task AcquireLease()
+// {
+//     BlobClient blobClient = new BlobClient(connectionString, containerName, blobName);
+//     BlobLeaseClient blobLeaseClient = blobClient.GetBlobLeaseClient();
+//     TimeSpan leaseTime = new TimeSpan(0, 0, 1, 00);
 
-    Response<BlobLease> response = await blobLeaseClient.AcquireAsync(leaseTime);
+//     Response<BlobLease> response = await blobLeaseClient.AcquireAsync(leaseTime);
 
-    System.Console.WriteLine("Lease id is {0}", response.Value.LeaseId);
-    System.Console.WriteLine("This blob has an active Lease and cannot deleted or edited. !! ");
-}
+//     System.Console.WriteLine("Lease id is {0}", response.Value.LeaseId);
+//     System.Console.WriteLine("This blob has an active Lease and cannot deleted or edited. !! ");
+// }
 
 
