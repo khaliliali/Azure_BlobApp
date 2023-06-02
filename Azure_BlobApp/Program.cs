@@ -1,5 +1,7 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure;
+using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Azure.Storage.Blobs.Specialized;
 
 string connectionString = "";
 string containerName = "";
@@ -52,16 +54,34 @@ string filePath = "";
 
 /*  Get Blob MetaData */
 
-await GetBlobMetadata();
+// await GetBlobMetadata();
 
-async Task GetBlobMetadata()
+// async Task GetBlobMetadata()
+// {
+//     BlobClient blobClient = new BlobClient(connectionString, containerName, blobName);
+//     BlobProperties blobProperties = await blobClient.GetPropertiesAsync();
+
+//     foreach (var metaData in blobProperties.Metadata)
+//     {
+//         System.Console.WriteLine("The Key is {0} ", metaData.Key);
+//         System.Console.WriteLine("The Value is {0} ", metaData.Value);
+//     }
+// }
+
+/* Blob Lease */
+
+await AcquireLease();
+
+async Task AcquireLease()
 {
     BlobClient blobClient = new BlobClient(connectionString, containerName, blobName);
-    BlobProperties blobProperties = await blobClient.GetPropertiesAsync();
+    BlobLeaseClient blobLeaseClient = blobClient.GetBlobLeaseClient();
+    TimeSpan leaseTime = new TimeSpan(0, 0, 1, 00);
 
-    foreach (var metaData in blobProperties.Metadata)
-    {
-        System.Console.WriteLine("The Key is {0} ", metaData.Key);
-        System.Console.WriteLine("The Value is {0} ", metaData.Value);
-    }
+    Response<BlobLease> response = await blobLeaseClient.AcquireAsync(leaseTime);
+
+    System.Console.WriteLine("Lease id is {0}", response.Value.LeaseId);
+    System.Console.WriteLine("This blob has an active Lease and cannot deleted or edited. !! ");
 }
+
+
